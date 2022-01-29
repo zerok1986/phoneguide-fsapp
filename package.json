@@ -8,8 +8,7 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf build && cd ../fsopen-2021/part2/phoneguide && npm run build --prod && cp -r build ../../../phoneguide/",
-    "deploy": "git push heroku main",
-    "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && git push heroku main",
+    "deploy": "npm run build:ui && git add . && git commit -m uibuild && git push && git push heroku main",
     "logs:prod": "heroku logs --tail"
   },
   "repository": {
