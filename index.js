@@ -1,7 +1,13 @@
 const express = require('express')
-const app = express()
 const persons = require('./data.json')
+const morganBody = require('morgan-body')
+const bodyParser = require('body-parser')
+
+const app = express()
 app.use(express.json())
+
+app.use(bodyParser.json())
+morganBody(app)
 
 app.get('/', (req, res) => {
   res.send('<h1>Hello World!</h1>')
@@ -59,6 +65,12 @@ app.delete('/api/persons/:id', (req, res) => {
   persons.splice(id, 1)
   res.status(204).end()
 })
+
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
 
 const PORT = 5005
 app.listen(PORT, () => {
