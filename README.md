@@ -1,11 +1,7 @@
 # phoneguide-api
 
-https://cryptic-shore-84136.herokuapp.com/
+---
 
-## Endpoints
+- https://stormy-thicket-88434.herokuapp.com/
 
-- GET https://cryptic-shore-84136.herokuapp.com/api/persons
-- POST https://cryptic-shore-84136.herokuapp.com/api/persons
-- GET https://cryptic-shore-84136.herokuapp.com/api/persons/:id
-- DELETE https://cryptic-shore-84136.herokuapp.com/api/persons/:id
 
