@@ -1,0 +1,27 @@
+{
+  "name": "phoneguide-api",
+  "version": "1.0.0",
+  "description": "A simple RESTful API serving users and phones",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zerok1986/phoneguide-api.git"
+  },
+  "author": "zerok1986",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zerok1986/phoneguide-api/issues"
+  },
+  "homepage": "https://github.com/zerok1986/phoneguide-api#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
