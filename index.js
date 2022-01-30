@@ -1,11 +1,11 @@
 require('dotenv').config()
 const express = require('express')
-const persons = require('./data.json')
 const morganBody = require('morgan-body')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-
 const app = express()
+const Person = require('./models/Person.model')
+
 app.use(express.static('build'))
 app.use(cors())
 app.use(express.json())
@@ -13,19 +13,8 @@ app.use(express.json())
 app.use(bodyParser.json())
 morganBody(app)
 
-app.get('/', (req, res) => {
-  res.send('<h1>Hello World!</h1>')
-})
-
-app.get('/info', (req, res) => {
-  res.send(`
-    <p>Phonebook has info for ${persons.length} people</p>
-    <p>${new Date()}</p>
-    `)
-})
-
 app.get('/api/persons', (req, res) => {
-  res.json(persons)
+  Person.find({}).then((people) => res.status(200).json(people))
 })
 
 app.post('/api/persons', (req, res) => {
@@ -37,37 +26,52 @@ app.post('/api/persons', (req, res) => {
     })
   }
 
-  const person = {
+  const personObj = new Person({
     id: Date.now(),
     name: body.name,
     number: body.number,
-  }
-
-  persons.find((person) => {
-    if (person.name === body.name) {
-      return res.status(401).json({
-        error: 'name must be unique',
-      })
-    }
   })
-  persons.push(person)
-  res.status(201).json(person)
+
+  Person.find({})
+    .then((people) => {
+      people.forEach((person) => {
+        if (person.name === body.name || person.number === body.number) {
+          return res
+            .status(402)
+            .json({
+              error: 'fields must be unique',
+            })
+            .end()
+        }
+      })
+      personObj
+        .save()
+        .then((savedPerson) => {
+          res.status(201).json(savedPerson)
+        })
+        .catch((err) => console.error(err.message))
+    })
+    .catch((err) => console.error(err.message))
 })
 
 app.get('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  const person = persons.find((person) => person.id === id)
-  person
-    ? res.status(200).json(person)
-    : res.status(404).json({
+  const { id } = req.params
+  Person.findById(id)
+    .then((person) => {
+      res.status(200).json(person)
+    })
+    .catch((err) =>
+      res.status(404).json({
         error: 'person not found',
       })
+    )
 })
 
 app.delete('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id)
-  persons.splice(id, 1)
-  res.status(204).end()
+  const { id } = req.params
+  Person.findByIdAndDelete(id).then(() => {
+    res.status(204).end()
+  })
 })
 
 const unknownEndpoint = (req, res) => {
