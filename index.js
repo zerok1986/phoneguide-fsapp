@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const persons = require('./data.json')
 const morganBody = require('morgan-body')
