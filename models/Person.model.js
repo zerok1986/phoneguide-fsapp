@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const DB_REMOTE = process.env.DB_REMOTE
 
-console.log('Connecting to DB...')
+console.log('Connecting to DB... ...')
 
 mongoose
   .connect(DB_REMOTE)
