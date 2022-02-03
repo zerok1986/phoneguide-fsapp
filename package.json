@@ -1,7 +1,7 @@
 {
-  "name": "phoneguide-api",
+  "name": "phoneguide-fsapp",
   "version": "1.0.0",
-  "description": "A simple RESTful API serving users and phones",
+  "description": "A simple FS App using phoneguide-api to create and store users and phones",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
