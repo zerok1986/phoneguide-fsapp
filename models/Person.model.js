@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
-const DB_REMOTE = process.env.DB_REMOTE
+const DB_REMOTE = process.env.DB_REMOTE // eslint-disable-line
 
 console.log('Connecting to DB... ...')
 

@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(bodyParser.json())
 morganBody(app)
 
-app.get('/api/persons', (req, res) => {
+app.get('/api/persons', (req, res, next) => {
   Person.find({})
     .then((people) => res.status(200).json(people))
     .catch((err) => next(err))
@@ -90,7 +90,7 @@ const errorHandler = (err, req, res, next) => {
 
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 5005
+const PORT = process.env.PORT || 5005 // eslint-disable-line
 app.listen(PORT, () => {
   console.log(`Server 🏃 on port ${PORT}`)
 })
