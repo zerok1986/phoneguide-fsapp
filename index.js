@@ -19,7 +19,7 @@ app.get('/api/persons', (req, res) => {
     .catch((err) => next(err))
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
   const { body } = req
 
   if (!body.name || !body.number) {
@@ -33,24 +33,10 @@ app.post('/api/persons', (req, res) => {
     number: body.number,
   })
 
-  Person.find({})
-    .then((people) => {
-      people.forEach((person) => {
-        if (person.name === body.name || person.number === body.number) {
-          return res
-            .status(402)
-            .json({
-              error: 'fields must be unique',
-            })
-            .end()
-        }
-      })
-      personObj
-        .save()
-        .then((savedPerson) => {
-          res.status(201).json(savedPerson)
-        })
-        .catch((err) => console.error(err.message))
+  personObj
+    .save()
+    .then((savedPerson) => {
+      res.status(201).json(savedPerson.toJSON())
     })
     .catch((err) => next(err))
 })
@@ -96,6 +82,8 @@ app.use(unknownEndpoint)
 const errorHandler = (err, req, res, next) => {
   if (err.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
+  } else if (err.name === 'ValidationError') {
+    return res.status(400).json({ error: err.message })
   }
   next(err)
 }
